@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="false" />
+	<!-- <constant name="struts.action.extension" value="," /> -->
+	<constant name="struts.ui.theme" value="simple" />
+	
+	<package name="purpose"  extends="struts-default">
+		<action name="AddDetailsForm" class="in.nic.training.util.PopulateFieldsUtil" >
+			<result name="success" type="chain">AddStudentDetails</result>
+		</action>
+		<action name="AddStudentDetails">
+		    <result>jsp/add_details.jsp</result>
+		</action>
+		<action name="ViewStudentDetails" class="in.nic.training.action.ViewDataAction" method="viewAll">
+            <interceptor-ref name="execAndWait">
+                <!-- override delay and delaySleepInterval parameters of execAndWait to 500ms -->
+                <param name="delay">500</param>
+                <param name="delaySleepInterval">500</param>
+            </interceptor-ref> 
+            <result name="wait">jsp/wait.jsp</result>
+			<result name="success">jsp/allstudentinfo.jsp</result>
+			<result name="error">jsp/error.jsp</result>
+		</action>
+	</package>
+	
+	
+	<package name="addservice" extends="struts-default">
+		<action name="AddStudentData" class="in.nic.training.action.AddDataAction">
+			<result name="success">jsp/add_success.jsp</result>
+			<result name="input">jsp/error.jsp</result>
+			<result name="error">jsp/error.jsp</result>
+		</action>
+	</package>
+
+	
+	<package name="viewservice" extends="struts-default">
+	    
+		<action name="ViewAll" class="in.nic.training.action.ViewDataAction" method="viewAll">
+			<result name="success">jsp/allstudentinfo.jsp</result>
+			<result name="error">jsp/error.jsp</result>
+		</action>
+		
+		<action name="ViewByID" class="in.nic.training.action.ViewDataAction" method="viewById">
+			<result name="success">jsp/student_info.jsp</result>
+			<result name="error">jsp/error.jsp</result>
+		</action>
+		
+	</package>
+	
+	
+	<package name="editservice" extends="struts-default">
+	    
+	    <action name="EditStudentDetails" class="in.nic.training.util.PopulateFieldsUtil" >
+			<result name="success" type="chain">ViewEditForm</result>
+		</action>
+	    <action name="ViewEditForm" class="in.nic.training.action.EditDataAction" method="makeEditable">
+	        <result name="success">jsp/edit.jsp</result>
+	    </action>
+	    <action name="EditData" class="in.nic.training.action.EditDataAction" method="editData">
+	        <result name="success">jsp/edit_success.jsp</result>
+	    </action>
+	    <action name="DeleteData" class="in.nic.training.action.EditDataAction" method="deleteData">
+	        <result name="success">jsp/delete_success.jsp</result>
+	    </action>
+	  
+	</package>
+		
+</struts>
